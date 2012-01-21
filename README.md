@@ -29,6 +29,12 @@ pipeline = Evens.new | Map.new{ |x| x * 3} | Select.new{ |x| x % 7 == 0}
 3.times{ pipeline.run } #[0, 42, 84]}
 ```
 
+As of 0.2.7, we have a fancy new alternative syntax for this, which feels more like ruby:
+```ruby
+pipeline = evens | map{|x| x*3} | select{|x| x % 7 == 0}
+```
+Just include Stages::Sugar to get all the helpers.
+
 Writing New Stages
 ------------------
 
