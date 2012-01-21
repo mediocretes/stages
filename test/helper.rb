@@ -7,13 +7,19 @@ require 'minitest/unit'
 
 module Stages
   class Evens < Stage
-    def process 
+    def process
       value = 0
       loop do
         output(value)
         value += 2
       end
     end
+  end
+end
+
+module Stages::Sugar
+  def evens
+    Evens.new
   end
 end
 
@@ -33,12 +39,12 @@ class MiniTest::Unit
       if test_cases.size > 0
         @@out.print "\n#{suite}:\n"
       end
-      
+
       test_cases.each do |test|
         inst = suite.new test
         inst._assertions = 0
-        
-        
+
+
         @broken = nil
 
         @@out.print(case run_one inst
@@ -63,7 +69,7 @@ class MiniTest::Unit
                     end)
 
         if @broken
-          @@out.print MiniTest::Unit.use_natural_language_case_names? ? 
+          @@out.print MiniTest::Unit.use_natural_language_case_names? ?
           " #{test.gsub("test_", "").gsub(/_/, " ")}" : " #{test}"
           @@out.print " (%.2fs) " % @elapsed
           @@out.puts
@@ -84,14 +90,14 @@ class MiniTest::Unit
     @@out.sync = old_sync if @@out.respond_to? :sync=
       [@test_count, @assertion_count]
   end
-  
+
   def run_one(inst)
     t = Time.now
     result = inst.run self
     @elapsed = Time.now - t
     if result == :pass && @elapsed > 5.0
       result = :timeout
-      @report << { :message => "Test took a long time (%.2fs)" % @elapsed, 
+      @report << { :message => "Test took a long time (%.2fs)" % @elapsed,
       :exception => Exception.new("Long test")}
     end
     result

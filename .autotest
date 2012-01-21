@@ -4,7 +4,10 @@ Autotest.add_hook(:initialize)  do |at|
   end
 
   at.add_mapping(%r%^lib(/stages)?/(.*).rb$%, true) do |filename, _|
-    ['test/test_pipeline.rb', 'test/test_stages.rb']
+    ['test/test_pipeline.rb', 'test/test_stages.rb', 'test/test_syntax.rb']
   end   
 
+  at.add_mapping(%r%^lib/sugar.rb$%, true) do |filename, _|
+    ['test/test_syntax.rb']
+  end   
 end
