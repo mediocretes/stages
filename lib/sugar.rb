@@ -35,5 +35,9 @@ module Stages
     def group(*args, &block)
       Count.new
     end
+
+    def emit(*args, &block)
+      Emit.new(*args, &block)
+    end
   end
 end
