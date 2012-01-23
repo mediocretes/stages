@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.2.10"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "lib/stages/each.rb",
     "lib/stages/emit.rb",
     "lib/stages/exhaust.rb",
+    "lib/stages/exhaust_count.rb",
     "lib/stages/map.rb",
     "lib/stages/restrict.rb",
     "lib/stages/resume.rb",
