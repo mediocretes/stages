@@ -109,6 +109,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(%w(foo bar zut), pipeline.run)
   end
 
+  test 'count aggregates from prevous counts' do
+    pipeline = Each.new([{ a: 2}, { a: 3}]) | Count.new
+    assert_equal({ a: 5}, pipeline.run)
+  end
+
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',
