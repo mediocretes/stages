@@ -114,6 +114,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ a: 5}, pipeline.run)
   end
 
+  test 'trying to pull from nil returns nil, not an excemption' do
+    pipeline = Unique.new
+    assert_equal(nil, pipeline.run)
+  end
+
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',

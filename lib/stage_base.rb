@@ -1,67 +1,67 @@
 module Stages
   class Stage
     attr_accessor :source
-    
+
     def initialize(&block)
       @block = block
       initialize_loop
     end
-    
+
     def initialize_loop
        @fiber_delegate = Fiber.new do
         process
         die
       end
     end
-    
+
     def run
-      @fiber_delegate.resume    
+      @fiber_delegate.resume
     end
-    
+
     #seperate from reset! for restrict/resume purposes.
     def reset
       initialize_loop
       @source.reset if @source
     end
-    
+
     def reset!
       initialize_loop
       @source.reset! if @source
     end
-    
+
     def die
       loop do
         output nil
       end
     end
-    
+
     def process
       while value = input
         handle_value value
       end
     end
-    
+
     def handle_value(value)
       output value
     end
-    
+
     def input
-      source.run
+      source.nil? ? nil : source.run
     end
-    
+
     def output(value)
       Fiber.yield value
     end
-      
+
     def |(other)
       other.root_source.source = self
       other
     end
-    
+
     def root_source
       source.nil? ? self : source.root_source
     end
-    
+
     def drop_leftmost!
       if @source.end?
         @source = nil
@@ -69,11 +69,11 @@ module Stages
         @source.drop_leftmost!
       end
     end
-    
+
     def end?
       @source.nil?
     end
-    
+
     def length
       if source
         source.length + 1
@@ -81,6 +81,6 @@ module Stages
         1
       end
     end
-  end  
-end 
- 
+  end
+end
+
