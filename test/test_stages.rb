@@ -109,6 +109,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(%w(foo bar zut), pipeline.run)
   end
 
+    test 'exhaust count' do
+    pipeline = Each.new(%w(foo bar zut)) | ExhaustCount.new
+    assert_equal(3, pipeline.run)
+  end
+
   test 'count aggregates from prevous counts' do
     pipeline = Each.new([{ a: 2}, { a: 3}]) | Count.new
     assert_equal({ a: 5}, pipeline.run)

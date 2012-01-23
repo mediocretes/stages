@@ -35,4 +35,9 @@ class TestSyntax < MiniTest::Unit::TestCase
     pipeline = each([1, 3, 2, 3, 2, 1]) | unique | run_until_exhausted
     assert_equal([1, 3, 2], pipeline.run)
   end
+
+    test 'exhaustcount' do
+    pipeline = each([1, 3, 2, 3, 2, 1]) | unique | exhaust_and_count
+    assert_equal(3, pipeline.run)
+  end
 end

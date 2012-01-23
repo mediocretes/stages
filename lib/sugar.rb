@@ -24,6 +24,10 @@ module Stages
       Exhaust.new(*args, &block)
     end
 
+    def exhaust_and_count(*args, &block)
+      ExhaustCount.new(*args, &block)
+    end
+
     def restrict(*args, &block)
       Restrict.new(*args, &block)
     end
