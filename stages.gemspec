@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
-  s.date = "2012-01-23"
+  s.date = "2012-01-29"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
