@@ -4,7 +4,7 @@ module Stages
       result = Hash.new{ |h, k| h[k] = 0 }
       while v = source.run
         if v.is_a? Hash
-          v.each_pair{ |key, value| result[key] += value }
+          v.each_pair{ |key, value| result[key] += (value || 0) }
         else
           result[v] += 1
         end

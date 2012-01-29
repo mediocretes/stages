@@ -119,6 +119,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ a: 5}, pipeline.run)
   end
 
+  test 'count-recount doesnt choke on nils' do
+    pipeline = Each.new([{ a: 2}, { a: nil}]) | Count.new
+    assert_equal({ a: 2}, pipeline.run)
+  end
+
   test 'trying to pull from nil returns nil, not an excemption' do
     pipeline = Unique.new
     assert_equal(nil, pipeline.run)
