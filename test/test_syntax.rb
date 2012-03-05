@@ -36,8 +36,15 @@ class TestSyntax < MiniTest::Unit::TestCase
     assert_equal([1, 3, 2], pipeline.run)
   end
 
-    test 'exhaustcount' do
+  test 'exhaustcount' do
     pipeline = each([1, 3, 2, 3, 2, 1]) | unique | exhaust_and_count
     assert_equal(3, pipeline.run)
+  end
+
+  test 'cache' do
+    order = []
+    pipeline = each([1, 3, 2, 3, 2, 1]) | map{|x| order << 'a'; x} | cache  | map{|x| order << 'b'; x} | run_until_exhausted
+    assert_equal([1, 3, 2, 3, 2, 1], pipeline.run)
+    assert_equal(%w(a a a a a a b b b b b b), order)
   end
 end

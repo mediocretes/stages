@@ -43,5 +43,9 @@ module Stages
     def emit(*args, &block)
       Emit.new(*args, &block)
     end
+
+    def cache(*args, &block)
+      Cache.new(*args, &block)
+    end
   end
 end

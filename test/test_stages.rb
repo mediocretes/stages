@@ -109,9 +109,15 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(%w(foo bar zut), pipeline.run)
   end
 
-    test 'exhaust count' do
+  test 'exhaust count' do
     pipeline = Each.new(%w(foo bar zut)) | ExhaustCount.new
     assert_equal(3, pipeline.run)
+  end
+
+  test 'cache' do    order = []
+    pipeline = Each.new([1, 3, 2, 3, 2, 1]) | Map.new{|x| order << 'a'; x} | Cache.new  | Map.new{|x| order << 'b'; x} | Exhaust.new
+    assert_equal([1, 3, 2, 3, 2, 1], pipeline.run)
+    assert_equal(%w(a a a a a a b b b b b b), order)
   end
 
   test 'count aggregates from prevous counts' do
