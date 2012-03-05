@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
-  s.date = "2012-01-29"
+  s.date = "2012-03-05"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "examples/sing_subpipes.rb",
     "lib/stage_base.rb",
     "lib/stages.rb",
+    "lib/stages/cache.rb",
     "lib/stages/count.rb",
     "lib/stages/each.rb",
     "lib/stages/emit.rb",
@@ -48,7 +49,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/iGoDigital-LLC/stages"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.17"
   s.summary = "pipeline builder"
 
   if s.respond_to? :specification_version then
