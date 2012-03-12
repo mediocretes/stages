@@ -54,6 +54,7 @@ module Stages
     end
 
     def |(other)
+      return self if other.nil?
       other.root_source.source = self
       other
     end
