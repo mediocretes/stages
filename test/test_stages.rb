@@ -95,13 +95,31 @@ class TestStages < MiniTest::Unit::TestCase
     end
   end
 
-  test 'unique' do
-    pipeline = Each.new('abcadefbega'){ |x| x.chars} | Unique.new
+
+  test 'unique-jit' do
+    order = []
+    pipeline = Each.new('abcadefbega'){ |x| x.chars} |
+      Map.new{ |x| order << 'a'; x} | Unique.new|
+      Map.new{ |x| order << 'b'; x}
     results = []
     while r = pipeline.run
       results << r
     end
     assert_equal(%w(a b c d e f g), results)
+    assert_equal(%w(a b a b a b a a b a b a b a a a b a), order)
+  end
+
+  test 'unique-prefetch' do
+    order = []
+    pipeline = Each.new('abcadefbega'){ |x| x.chars} |
+      Map.new{ |x| order << 'a'; x} | Unique.new(prefetch: true) |
+      Map.new{ |x| order << 'b'; x}
+    results = []
+    while r = pipeline.run
+      results << r
+    end
+    assert_equal(%w(a b c d e f g), results)
+    assert_equal(['a']*11 + ['b']*7, order)
   end
 
   test 'exhaust' do
@@ -114,7 +132,8 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(3, pipeline.run)
   end
 
-  test 'cache' do    order = []
+  test 'cache' do
+    order = []
     pipeline = Each.new([1, 3, 2, 3, 2, 1]) | Map.new{|x| order << 'a'; x} | Cache.new  | Map.new{|x| order << 'b'; x} | Exhaust.new
     assert_equal([1, 3, 2, 3, 2, 1], pipeline.run)
     assert_equal(%w(a a a a a a b b b b b b), order)

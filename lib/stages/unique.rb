@@ -2,18 +2,19 @@ require 'set'
 
 module Stages
   class Unique < Stage
-    def initialize_loop
-      @set = Set.new
+    def initialize(options = { })
+      @prefetch = options[:prefetch]
       super()
     end
 
-    def die
-      @set = Set.new
-      super()
-    end
-    
-    def handle_value(value)
-      output value if @set.add? value.hash
+    def process
+      set = Set.new
+      while i = input
+        added = set.add? i
+        handle_value i if added && !@prefetch
+      end
+      set.each{ |x| output x} if @prefetch
+      set = nil
     end
   end
 end
