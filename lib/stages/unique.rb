@@ -9,11 +9,12 @@ module Stages
 
     def process
       set = Set.new
-      while i = input
+      while !source_empty?
+        i = input
         added = set.add? i
         handle_value i if added && !@prefetch
       end
-      set.each{ |x| output x} if @prefetch
+      set.each{ |x| handle_value x} if @prefetch
       set = nil
     end
   end

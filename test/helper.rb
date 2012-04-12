@@ -46,7 +46,6 @@ class MiniTest::Unit
 
 
         @broken = nil
-
         @@out.print(case run_one inst
                     when :pass
                       @broken = false

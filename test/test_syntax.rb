@@ -17,8 +17,8 @@ class TestSyntax < MiniTest::Unit::TestCase
   test 'wrap' do
     pipeline = each(%w(foo bar)) | wrap(each{ |x| x.chars}, :each)
     expected = %w(r a b o o f)
-    while r = pipeline.run
-      assert_equal(expected.pop, r)
+    while !pipeline.done?
+      assert_equal(expected.pop, pipeline.run)
     end
   end
 

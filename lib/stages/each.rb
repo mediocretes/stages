@@ -15,7 +15,8 @@ module Stages
     end
 
     def process_inputs
-      while (v = input) != nil
+      while !source_empty?
+        v = input
         v = @block.call(v) if @block
         v.each do |v|
           output v
@@ -25,9 +26,8 @@ module Stages
 
     def process_things
       @things = @block.call(@things) if @block
-      output nil if @things.nil?
       @things.each do |thing|
-        output thing
+        handle_value thing
       end
     end
   end

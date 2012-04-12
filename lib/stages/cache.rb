@@ -1,13 +1,9 @@
 module Stages
   class Cache < Stage
-    def initialize()
-      super()
-    end
-
     def process
       cache = []
-      while i = input
-        cache << i
+      while !source_empty?
+        cache << input
       end
       cache.each{ |x| output x}
     end

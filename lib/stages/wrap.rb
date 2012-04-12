@@ -21,10 +21,12 @@ module Stages
     end
 
     def process
-      while value = input
+      while !source_empty?
+        value = input
         subpipe = Emit.new(value) | @pipeline
         results = []
-        while v = subpipe.run
+        while !subpipe.done?
+          v = subpipe.run
           @output_style == :each ? output(v) : results << v
         end
         results = results.first if @aggregated

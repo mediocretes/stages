@@ -8,14 +8,35 @@ module Stages
     end
 
     def initialize_loop
-       @fiber_delegate = Fiber.new do
+      @done = false
+      @cached_value = :stages_empty_cache
+      @fiber_delegate = Fiber.new do
         process
+        @done = true
         die
       end
     end
 
     def run
+      if @cached_value != :stages_empty_cache
+        v = @cached_value
+        @cached_value = :stages_empty_cache
+        return v
+      end
       @fiber_delegate.resume
+    end
+
+    def done?
+      return true if @done
+      return false if @cached_value != :stages_empty_cache
+      next_value = @fiber_delegate.resume
+      if next_value == :stages_eos
+        @done = true
+        @cached_value = :stages_empty_cache
+        return true
+      end
+      @cached_value = next_value
+      return false
     end
 
     def reset
@@ -25,13 +46,13 @@ module Stages
 
     def die
       loop do
-        output nil
+        output :stages_eos
       end
     end
 
     def process
-      while (value = input) != nil
-        handle_value value
+      while !source_empty?
+        handle_value input
       end
     end
 
@@ -39,8 +60,12 @@ module Stages
       output value
     end
 
+    def source_empty?
+      (source.nil? || source.done?)
+    end
+
     def input
-      source.nil? ? nil : source.run
+      source.nil? ? :stages_eos : source.run
     end
 
     def output(value)

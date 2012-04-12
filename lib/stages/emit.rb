@@ -4,8 +4,8 @@ module Stages
       @thing = thing
       super()
     end
-        
-    def process 
+
+    def process
       output @thing
     end
   end

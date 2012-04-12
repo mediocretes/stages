@@ -2,7 +2,8 @@ module Stages
   class ExhaustCount < Stage
     def process
       results = 0
-      while value = input
+      while !source_empty?
+        input
         results += 1
       end
       output results

@@ -60,8 +60,8 @@ class TestStages < MiniTest::Unit::TestCase
   test 'each mode wrap' do
     pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}, :each)
     expected = %w(r a b o o f)
-    while r = pipeline.run
-      assert_equal(expected.pop, r)
+    while !pipeline.done?
+      assert_equal(expected.pop, pipeline.run)
     end
   end
 
@@ -69,11 +69,11 @@ class TestStages < MiniTest::Unit::TestCase
   test 'unique-jit' do
     order = []
     pipeline = Each.new('abcadefbega'){ |x| x.chars} |
-      Map.new{ |x| order << 'a'; x} | Unique.new|
+      Map.new{ |x| order << 'a'; x} | Unique.new |
       Map.new{ |x| order << 'b'; x}
     results = []
-    while r = pipeline.run
-      results << r
+    while !pipeline.done?
+      results << pipeline.run
     end
     assert_equal(%w(a b c d e f g), results)
     assert_equal(%w(a b a b a b a a b a b a b a a a b a), order)
@@ -85,8 +85,8 @@ class TestStages < MiniTest::Unit::TestCase
       Map.new{ |x| order << 'a'; x} | Unique.new(prefetch: true) |
       Map.new{ |x| order << 'b'; x}
     results = []
-    while r = pipeline.run
-      results << r
+    while !pipeline.done?
+      results << pipeline.run
     end
     assert_equal(%w(a b c d e f g), results)
     assert_equal(['a']*11 + ['b']*7, order)
@@ -119,9 +119,9 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ a: 2}, pipeline.run)
   end
 
-  test 'trying to pull from nil returns nil, not an excemption' do
+  test 'trying to pull from nil returns nil, not an exception' do
     pipeline = Unique.new
-    assert_equal(nil, pipeline.run)
+    assert pipeline.done?
   end
 
   def sing
