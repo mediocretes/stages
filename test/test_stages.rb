@@ -32,36 +32,6 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
   end
 
-  test 'restrict' do
-    pipeline = Evens.new | Restrict.new | Map.new{ |x| x * 2}
-    result = []
-    while v = pipeline.run
-      result << v
-    end
-    assert_equal([0], result)
-    pipeline.reset
-    while v = pipeline.run
-      result << v
-    end
-    assert_equal([0, 4], result)
-  end
-
-  test 'resume' do
-    pipeline = Each.new(%w(foo bar)) | Restrict.new | Each.new{ |x| x.chars} | Resume.new
-    result = []
-    while v = pipeline.run
-      result << v
-    end
-    assert_equal([{ 'foo' => %w(f o o)}, {'bar' => %w(b a r)}], result)
-  end
-
-  test 'resume with count' do
-    resume = ResumeCount.new
-    pipeline = Each.new(%w(foo bar)) | Restrict.new | Each.new{ |x| x.chars} | Map.new{ |x| x.to_sym } | resume
-    result = pipeline.run
-    assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
-  end
-
   test 'hash mode wrap' do
     pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars})
     result = pipeline.run

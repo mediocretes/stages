@@ -28,14 +28,6 @@ module Stages
       ExhaustCount.new(*args, &block)
     end
 
-    def restrict(*args, &block)
-      Restrict.new(*args, &block)
-    end
-
-    def resume(*args, &block)
-      Resume.new(*args, &block)
-    end
-
     def group(*args, &block)
       Count.new
     end

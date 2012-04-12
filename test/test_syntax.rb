@@ -14,15 +14,6 @@ class TestSyntax < MiniTest::Unit::TestCase
     assert_equal({ 1 => 6}, pipeline.run)
   end
 
-  test 'restrict and resume' do
-    pipeline = each(%w(foo bar)) | restrict | each{ |x| x.chars} | resume
-    result = []
-    while v = pipeline.run
-      result << v
-    end
-    assert_equal([{ 'foo' => %w(f o o)}, {'bar' => %w(b a r)}], result)
-  end
-
   test 'wrap' do
     pipeline = each(%w(foo bar)) | wrap(each{ |x| x.chars}, :each)
     expected = %w(r a b o o f)

@@ -53,6 +53,9 @@ module Stages
       other
     end
 
+    #root_source lets you add to existing pipelines
+    #the result is always the rightmost stage
+    #so adding things to it is problematic
     def root_source
       source.nil? ? self : source.root_source
     end
