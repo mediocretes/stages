@@ -16,14 +16,8 @@ module Stages
 
     def reset
       initialize_loop
-      @pipeline.reset!
+      @pipeline.reset
       @source.reset if @source
-    end
-
-    def reset!
-      initialize_loop
-      @pipeline.reset!
-      @source.reset! if @source
     end
 
     def process
@@ -37,9 +31,9 @@ module Stages
         output results if @output_style == :array
         output({ value => results}) if @output_style == :hash
         @pipeline.drop_leftmost!
-        @pipeline.reset!
+        @pipeline.reset
       end
-      @pipeline.reset!
+      @pipeline.reset
     end
   end
 end

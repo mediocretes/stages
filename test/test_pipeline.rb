@@ -53,10 +53,10 @@ class TestPipeline < MiniTest::Unit::TestCase
     assert_equal({ 'bar' => { :b => 1, :a => 1, :r => 1}}, result)
   end
 
-  test 'reset! resets everything' do
+  test 'reset resets everything' do
     pipeline = Each.new([1, 2, 3])
     assert_equal(1, pipeline.run)
-    pipeline.reset!
+    pipeline.reset
     assert_equal(1, pipeline.run)
     assert_equal(2, pipeline.run)
   end

@@ -5,24 +5,24 @@ module Stages
       @block = block
       super()
     end
-        
-    def process 
+
+    def process
       if @things
         process_things
       else
         process_inputs
       end
     end
-    
+
     def process_inputs
-      while v = input
+      while (v = input) != nil
         v = @block.call(v) if @block
         v.each do |v|
           output v
         end
       end
     end
-    
+
     def process_things
       @things = @block.call(@things) if @block
       output nil if @things.nil?

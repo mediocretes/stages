@@ -18,15 +18,9 @@ module Stages
       @fiber_delegate.resume
     end
 
-    #seperate from reset! for restrict/resume purposes.
     def reset
       initialize_loop
       @source.reset if @source
-    end
-
-    def reset!
-      initialize_loop
-      @source.reset! if @source
     end
 
     def die
@@ -36,7 +30,7 @@ module Stages
     end
 
     def process
-      while value = input
+      while (value = input) != nil
         handle_value value
       end
     end
