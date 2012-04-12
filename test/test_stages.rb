@@ -65,6 +65,11 @@ class TestStages < MiniTest::Unit::TestCase
     end
   end
 
+  test 'nil makes it through' do
+    pipeline = Each.new([1, 2, nil, 4]) | Map.new{ |x| x.nil? ? x : x*2} | Exhaust.new
+    result = pipeline.run
+    assert_equal([2, 4, nil, 8], result)
+  end
 
   test 'unique-jit' do
     order = []
