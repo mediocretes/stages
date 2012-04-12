@@ -45,6 +45,20 @@ If you are writing a generator, you probably want to subclass Stage and implemen
 Stern Warnings
 --------------
 
-Returning nil from handle_value kills a pipeline.  We may change this behavior in the future, but for now, it makes life easy.
+There are BREAKING CHANGES in 0.4.0.  Nil and false no longer kill pipelines, there is a special value that does that.  If you are overriding process and have a construct like this:
+```ruby
+while v = input
+  do_things v
+end
+```
+
+You will need to replace it with something like this:
+```ruby
+while !source_empty?
+  do_things input
+end
+```
+But, your pipelines now treat nil and false as perfectly valid values.  It's breaking, but it's probably an improvement.
+
 
 
