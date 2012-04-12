@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.3.4"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
-  s.date = "2012-04-02"
+  s.date = "2012-04-12"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
-    "examples/sing.rb",
     "examples/sing_custom_stages.rb",
     "examples/sing_subpipes.rb",
     "lib/stage_base.rb",
@@ -34,9 +33,6 @@ Gem::Specification.new do |s|
     "lib/stages/exhaust.rb",
     "lib/stages/exhaust_count.rb",
     "lib/stages/map.rb",
-    "lib/stages/restrict.rb",
-    "lib/stages/resume.rb",
-    "lib/stages/resume_count.rb",
     "lib/stages/select.rb",
     "lib/stages/unique.rb",
     "lib/stages/wrap.rb",
