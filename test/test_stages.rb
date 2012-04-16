@@ -65,6 +65,20 @@ class TestStages < MiniTest::Unit::TestCase
     end
   end
 
+  test 'feeder' do
+    feeder = Feeder.new
+    pipeline = feeder | Map.new{ |x| x*2}
+    assert feeder.done?
+    feeder << 1
+    feeder << 2
+    assert_equal(2, pipeline.run)
+    assert_equal(4, pipeline.run)
+    assert feeder.done?
+    feeder << 3
+    assert_equal(6, pipeline.run)
+    assert pipeline.done?
+  end
+
   test 'nil makes it through' do
     pipeline = Each.new([1, 2, nil, 4]) | Map.new{ |x| x.nil? ? x : x*2} | Exhaust.new
     result = pipeline.run

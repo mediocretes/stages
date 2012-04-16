@@ -38,4 +38,18 @@ class TestSyntax < MiniTest::Unit::TestCase
     assert_equal([1, 3, 2, 3, 2, 1], pipeline.run)
     assert_equal(%w(a a a a a a b b b b b b), order)
   end
+
+  test 'feeder' do
+    f = feeder
+    pipeline = f | map{ |x| x*2}
+    assert feeder.done?
+    f << 1
+    f << 2
+    assert_equal(2, pipeline.run)
+    assert_equal(4, pipeline.run)
+    assert f.done?
+    f << 3
+    assert_equal(6, pipeline.run)
+    assert pipeline.done?
+  end
 end

@@ -1,7 +1,8 @@
 module Stages
   class Wrap < Stage
     def initialize(pipeline, *args)
-      @pipeline = pipeline
+      @feeder = Feeder.new
+      @pipeline = @feeder | pipeline
       @output_style = :hash
       unless args.empty?
         if args.include? :array
@@ -23,16 +24,15 @@ module Stages
     def process
       while !source_empty?
         value = input
-        subpipe = Emit.new(value) | @pipeline
+        @feeder << value
         results = []
-        while !subpipe.done?
-          v = subpipe.run
+        while !@pipeline.done?
+          v = @pipeline.run
           @output_style == :each ? output(v) : results << v
         end
         results = results.first if @aggregated
         output results if @output_style == :array
         output({ value => results}) if @output_style == :hash
-        @pipeline.drop_leftmost!
         @pipeline.reset
       end
       @pipeline.reset

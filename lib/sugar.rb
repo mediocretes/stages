@@ -39,5 +39,9 @@ module Stages
     def cache(*args, &block)
       Cache.new(*args, &block)
     end
+
+    def feeder(*args, &block)
+      Feeder.new(*args, &block)
+    end
   end
 end
