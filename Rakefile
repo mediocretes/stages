@@ -25,7 +25,7 @@ Jeweler::Tasks.new do |gem|
   gem.summary = "pipeline builder"
   gem.description = "pipeline builder"
   gem.email = "support@igodigital.com"
-  gem.authors = ["The Justice Eight"]
+  gem.authors = ["Nathan D Acuff"]
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
