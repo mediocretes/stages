@@ -35,6 +35,29 @@ pipeline = evens | map{|x| x*3} | select{|x| x % 7 == 0}
 ```
 Just include Stages::Sugar to get all the helpers.
 
+Weird Stages
+------------
+
+The feeder stage lets you have a pipeline which can add new values to the left hand side:
+```ruby
+pipeline = feeder
+feeder.done? # true
+feeder << 1
+feeder.done? # false
+feeder.run # 1
+feeder.done? # true
+``` 
+
+The wrap stage has different behavior depending on the arguments you specify.  In general, it runs the given pipeline in the context of the passed value.  Wrap has various output modes you can use depending on what you are expecting.
+```ruby
+emit('foo') | wrap(each{|x| x.chars}, :hash) # {'foo' => ['f', 'o', 'o']} this is the default
+emit('foo') | wrap(each{|x| x.chars} | group, :aggregated) # {'foo' => {'f' => 1, 'o' => 2}} assumes a single value output
+emit('foo') | wrap(each{|x| x.chars}, :array) # ['f', 'o', 'o'] discards the original value
+emit('foo') | wrap(each{|x| x.chars}, :each) | run_until_exhausted # ['f', 'o', 'o'] equivalent to array + each
+```
+
+Each does not build an internal list of results from the sub-array, and so may be useful in cases of high memory pressure when you are expecting many results for each output.
+
 Writing New Stages
 ------------------
 
