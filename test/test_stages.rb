@@ -48,6 +48,27 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(3, result['bar'].keys.length)
   end
 
+  test 'wrap/join array' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}) { |context, values| { context => values}}
+    result = pipeline.run
+    assert_equal({ 'foo' => %w(f o o)}, result)
+  end
+
+  test 'wrap/join each' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}, :each) { |context, values| { context => values}}
+    result = pipeline.run
+    assert_equal({ 'foo' => 'f'}, result)
+    result = pipeline.run
+    assert_equal({ 'foo' => 'o'}, result)
+    result = pipeline.run
+    assert_equal({ 'foo' => 'o'}, result)
+    result = pipeline.run
+    assert_equal({ 'bar' => 'b'}, result)
+    result = pipeline.run
+    assert_equal({ 'bar' => 'a'}, result)
+    result = pipeline.run
+    assert_equal({ 'bar' => 'r'}, result)
+  end
 
   test 'array mode wrap' do
     pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}, :array)

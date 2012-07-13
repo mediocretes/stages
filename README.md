@@ -54,9 +54,11 @@ emit('foo') | wrap(each{|x| x.chars}, :hash) # {'foo' => ['f', 'o', 'o']} this i
 emit('foo') | wrap(each{|x| x.chars} | group, :aggregated) # {'foo' => {'f' => 1, 'o' => 2}} assumes a single value output
 emit('foo') | wrap(each{|x| x.chars}, :array) # ['f', 'o', 'o'] discards the original value
 emit('foo') | wrap(each{|x| x.chars}, :each) | run_until_exhausted # ['f', 'o', 'o'] equivalent to array + each
+emit('foo') | wrap(each{|x| x.chars}){ |k, v| {k => v}} # {'foo' => ['f', 'o', 'o']
+emit('foo') | wrap(each{|x| x.chars}, :each){|k, v| {k => v}} # {'foo' => 'f'} ... {'foo' => 'o'} 
 ```
 
-Each does not build an internal list of results from the sub-array, and so may be useful in cases of high memory pressure when you are expecting many results for each input.  I feel like there must be a better form of wrap for dealing with the context of objects and hashes, but the syntax and semantics of what would be simplest and most convenient elude me at present.
+Each does not build an internal list of results from the sub-array, and so may be useful in cases of high memory pressure when you are expecting many results for each input. 
 
 Writing New Stages
 ------------------

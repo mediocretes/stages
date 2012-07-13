@@ -1,9 +1,13 @@
 module Stages
   class Wrap < Stage
-    def initialize(pipeline, *args)
+
+    #pass a block that takes two arguments that joins the original thing passed to the results, for each result
+
+    def initialize(pipeline, *args, &block)
       @feeder = Feeder.new
       @pipeline = @feeder | pipeline
       @output_style = :hash
+      @block = block
       unless args.empty?
         if args.include? :array
           @output_style = :array
@@ -28,11 +32,27 @@ module Stages
         results = []
         while !@pipeline.done?
           v = @pipeline.run
-          @output_style == :each ? output(v) : results << v
+          #yield each subpipeline result, as they are generated
+          if @output_style == :each
+            if @block
+              output @block.call(value, v)
+            else
+              output v
+            end
+          else
+            results << v
+          end
         end
-        results = results.first if @aggregated
-        output results if @output_style == :array
-        output({ value => results}) if @output_style == :hash
+        if @output_style != :each
+          results = results.first if @aggregated
+          #note that block supercedes array or hash
+          if @block
+            output @block.call(value, results)
+          else
+            output results if @output_style == :array
+            output({ value => results}) if @output_style == :hash
+          end
+        end
         @pipeline.reset
       end
       @pipeline.reset
