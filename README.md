@@ -56,7 +56,7 @@ emit('foo') | wrap(each{|x| x.chars}, :array) # ['f', 'o', 'o'] discards the ori
 emit('foo') | wrap(each{|x| x.chars}, :each) | run_until_exhausted # ['f', 'o', 'o'] equivalent to array + each
 ```
 
-Each does not build an internal list of results from the sub-array, and so may be useful in cases of high memory pressure when you are expecting many results for each output.
+Each does not build an internal list of results from the sub-array, and so may be useful in cases of high memory pressure when you are expecting many results for each input.  I feel like there must be a better form of wrap for dealing with the context of objects and hashes, but the syntax and semantics of what would be simplest and most convenient elude me at present.
 
 Writing New Stages
 ------------------
