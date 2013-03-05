@@ -1,6 +1,6 @@
 source 'http://gemcutter.org'
 
-gem 'rake', '=0.9.2'
+gem 'rake', '>=0.9.2'
 
 group :test do
   gem 'jeweler'
