@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dprvig/stages.png)](https://travis-ci.org/dprvig/stages)
+[![Build Status](https://travis-ci.org/iGoDigital-LLC/stages.png)](https://travis-ci.org/iGoDigital-LLC/stages)
 
 Stages
 ------
