@@ -164,6 +164,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert pipeline.done?
   end
 
+  test 'each with input and incoming data prepends given data' do
+    pipeline = Emit.new([1,2,3]) | Each.new([4,5,6]) | Exhaust.new
+    assert_equal([4,5,6,1,2,3], pipeline.run)
+  end
+
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',

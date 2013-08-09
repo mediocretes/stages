@@ -9,9 +9,8 @@ module Stages
     def process
       if @things
         process_things
-      else
-        process_inputs
       end
+      process_inputs
     end
 
     def process_inputs
