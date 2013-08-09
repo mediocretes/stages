@@ -79,11 +79,11 @@ class TestPipeline < MiniTest::Unit::TestCase
 
   test "pipeline as enum" do
     pipeline = Each.new([1,2,3,4,5]) | Select.new{ |x| x % 2 == 0}
-    output = pipeline.to_enum.map{ |x| x }
+    output = pipeline.map{ |x| x }
     assert_equal([2,4], output)
 
     pipeline.reset
-    pipeline.to_enum.each_slice(2) do |thing|
+    pipeline.each_slice(2) do |thing|
       assert_equal([2, 4], thing)
     end
   end

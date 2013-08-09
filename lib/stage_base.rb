@@ -1,5 +1,6 @@
 module Stages
   class Stage
+    include Enumerable
     attr_accessor :source
 
     def initialize(&block)
@@ -62,6 +63,10 @@ module Stages
           y << run
         end
       end
+    end
+
+    def each(&block)
+      to_enum.each(&block)
     end
 
     def handle_value(value)
