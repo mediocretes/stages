@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "1.0.1"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan D Acuff"]
-  s.date = "2013-03-01"
+  s.date = "2013-08-09"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".autotest",
+    ".travis.yml",
     "Gemfile",
     "Gemfile.lock",
     "README.md",
@@ -33,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/stages/exhaust.rb",
     "lib/stages/exhaust_count.rb",
     "lib/stages/feeder.rb",
+    "lib/stages/limit.rb",
     "lib/stages/map.rb",
     "lib/stages/select.rb",
     "lib/stages/unique.rb",
@@ -46,7 +48,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/iGoDigital-LLC/stages"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.17"
+  s.rubygems_version = "1.8.25"
   s.summary = "pipeline builder"
 
   if s.respond_to? :specification_version then
