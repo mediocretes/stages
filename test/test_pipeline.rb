@@ -61,6 +61,16 @@ class TestPipeline < MiniTest::Unit::TestCase
     assert_equal(2, pipeline.run)
   end
 
+  test 'reset resets limit' do
+    pipeline = Each.new([1, 2, 3, 4, 5]) | Limit.new(2)
+    assert_equal(1, pipeline.run)
+    assert_equal(2, pipeline.run)
+    pipeline.reset
+    assert_equal(1, pipeline.run)
+    assert_equal(2, pipeline.run)
+    assert_equal(:stages_eos, pipeline.run)
+  end
+
   test 'nil stages are skipped/no-ops' do
     pipeline = Evens.new | nil | Select.new{ |x| x > 3}
     assert_equal(4, pipeline.run)

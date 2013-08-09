@@ -169,6 +169,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal([4,5,6,1,2,3], pipeline.run)
   end
 
+  test 'limit stage only ticks X times' do
+    pipeline = Each.new([1,2,3,4,4]) | Limit.new(2) | Exhaust.new
+    assert_equal([1,2], pipeline.run)
+  end
+
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',

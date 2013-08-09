@@ -52,4 +52,9 @@ class TestSyntax < MiniTest::Unit::TestCase
     assert_equal(6, pipeline.run)
     assert pipeline.done?
   end
+
+  test 'limit' do
+    pipeline = each([1,2,3]) | limit(2) | run_until_exhausted
+    assert_equal([1, 2], pipeline.run)
+  end
 end

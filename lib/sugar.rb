@@ -43,5 +43,9 @@ module Stages
     def feeder(*args, &block)
       Feeder.new(*args, &block)
     end
+
+    def limit(*args, &block)
+      Limit.new(*args, &block)
+    end
   end
 end
