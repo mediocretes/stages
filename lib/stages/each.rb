@@ -18,7 +18,7 @@ module Stages
         v = input
         v = @block.call(v) if @block
         v.each do |v|
-          output v
+          handle_value v
         end
       end
     end
