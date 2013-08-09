@@ -174,6 +174,17 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal([1,2], pipeline.run)
   end
 
+  test "stage as enum" do
+    pipeline = Each.new([1,2,3,4,5])
+    output = pipeline.to_enum.map{ |x| x }
+    assert_equal([1,2,3,4,5], output)
+
+    pipeline.reset
+    output = []
+    pipeline.to_enum.each_slice(2){ |x| output << x }
+    assert_equal([[1,2],[3,4],[5]], output)
+  end
+
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',

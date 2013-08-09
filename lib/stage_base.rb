@@ -56,6 +56,14 @@ module Stages
       end
     end
 
+    def to_enum
+      Enumerator.new do |y|
+        while !done?
+          y << run
+        end
+      end
+    end
+
     def handle_value(value)
       output value
     end
